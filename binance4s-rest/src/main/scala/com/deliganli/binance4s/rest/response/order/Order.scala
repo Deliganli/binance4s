@@ -1,4 +1,4 @@
-package com.deliganli.binance4s.rest.response.account
+package com.deliganli.binance4s.rest.response.order
 
 import com.deliganli.binance4s.common.consts.{OrderSide, OrderStatus, OrderType, TimeInForce}
 import io.circe.Decoder

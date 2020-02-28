@@ -15,11 +15,16 @@ case class KlineResponse(
   numberOfTrades: Long,
   takerBuyBaseAssetVolume: BigDecimal,
   takerBuyQuoteAssetVolume: BigDecimal,
-  ignore: String
-)
+  ignore: String)
 
 object KlineResponse {
   import com.deliganli.binance4s.common.formatters.Decoders.decodeInstant
+
+  Decoder.forProduct3(
+    "lastUpdateId",
+    "bids",
+    "asks"
+  )(PartialDepthUpdate.apply)
 
   implicit val decodePrice: Decoder[KlineResponse] = (c: HCursor) => {
     for {

@@ -5,7 +5,6 @@ import enumeratum._
 sealed abstract class KlineInterval(override val entryName: String) extends EnumEntry
 
 object KlineInterval extends Enum[KlineInterval] with CirceEnum[KlineInterval] {
-
   case object OneMinute      extends KlineInterval("1m")
   case object ThreeMinutes   extends KlineInterval("3m")
   case object FiveMinutes    extends KlineInterval("5m")

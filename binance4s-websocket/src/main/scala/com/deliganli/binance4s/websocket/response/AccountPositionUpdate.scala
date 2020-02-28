@@ -3,7 +3,7 @@ package com.deliganli.binance4s.websocket.response
 import io.circe.Decoder
 import org.joda.time.Instant
 
-case class AccountPositionUpdate(eventTime: Instant, timeOfLasAccountUpdate: Instant, balances: Seq[Balance])
+case class AccountPositionUpdate(eventTime: Instant, timeOfLastAccountUpdate: Instant, balances: Seq[Balance])
     extends UserEvent
 
 object AccountPositionUpdate {

@@ -1,7 +1,7 @@
 import Dependencies._
 
 lazy val scala212               = "2.12.8"
-lazy val scala213               = "2.13.0"
+lazy val scala213               = "2.13.1"
 lazy val supportedScalaVersions = List(scala212, scala213)
 
 lazy val root = project
@@ -54,7 +54,7 @@ lazy val websocket = project
 
 lazy val commonSettings = Seq(
   organization := "com.deliganli",
-  scalaVersion := "2.13.0",
+  scalaVersion := scala213,
   version := "0.1.0-SNAPSHOT",
   scalacOptions ++= Seq(
     "-deprecation",

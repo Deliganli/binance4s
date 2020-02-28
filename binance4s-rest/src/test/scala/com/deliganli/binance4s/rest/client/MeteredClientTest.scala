@@ -19,10 +19,10 @@ class MeteredClientTest extends IntegrationTest {
 
   "user stream" should "work" in {
     val streamChain = for {
-      dataStream <- rest.user.start()
-      listenKey = dataStream.body.listenKey
-      _ <- rest.user.keepAlive(listenKey)
-      _ <- rest.user.stop(listenKey)
+      dataStream <- rest.user.start
+      listenKey  <- IO.fromEither(dataStream.body).map(_.listenKey)
+      _          <- rest.user.keepAlive(listenKey)
+      _          <- rest.user.stop(listenKey)
     } yield ()
 
     noException should be thrownBy streamChain.unsafeRunSync()

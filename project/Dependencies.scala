@@ -40,11 +40,6 @@ object Dependencies {
     "org.mockito"   %% "mockito-scala-scalatest" % Versions.mockito % Test
   )
 
-  val binance4s = Seq(
-    "com.deliganli" %% "binance4s-rest"      % Versions.binance4s,
-    "com.deliganli" %% "binance4s-websocket" % Versions.binance4s
-  )
-
   val http4sClient = Seq(
     "org.http4s" %% "http4s-circe"           % Versions.http4s,
     "org.http4s" %% "http4s-jdk-http-client" % Versions.http4sJdk
@@ -62,24 +57,23 @@ object Dependencies {
 }
 
 object Versions {
-  val scalatest       = "3.0.8"
+  val scalatest       = "3.1.0"
   val logback         = "1.2.3"
-  val cats            = "2.0.0-M4"
+  val cats            = "2.0.0"
   val osLib           = "0.3.0"
-  val circeFs2        = "0.12.0-M1"
-  val circe           = "0.12.0-M3"
-  val circeConfig     = "0.7.0-M1"
-  val tsec            = "0.2.0-M1"
-  val fs2             = "1.1.0-M1"
-  val enumeratum      = "1.5.13"
-  val enumeratumCirce = "1.5.21"
+  val circeFs2        = "0.12.0"
+  val circe           = "0.12.0"
+  val circeConfig     = "0.7.0"
+  val tsec            = "0.2.0-M2"
+  val fs2             = "2.1.0"
+  val enumeratum      = "1.5.15"
+  val enumeratumCirce = "1.5.22"
   val scalaLogging    = "3.9.2"
-  val breeze          = "1.0-RC4"
-  val binance4s       = "0.1.0-SNAPSHOT"
+  val breeze          = "1.0"
   val shapeless       = "2.3.3"
-  val mockito         = "1.5.17"
-  val jodaDateTime    = "2.10.3"
-  val http4s          = "0.21.0-M4"
-  val http4sJdk       = "0.2.0-M2"
+  val mockito         = "1.10.4"
+  val jodaDateTime    = "2.10.5"
+  val http4s          = "0.21.0-M6"
+  val http4sJdk       = "0.2.0-M4"
 
 }

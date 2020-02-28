@@ -20,7 +20,7 @@ object IntegrationTest {
 
   val credentials = sys.env
     .get("HOME")
-    .map(home => Paths.get(home, "binance.credentials").toFile)
+    .map(home => Paths.get(home, "creds", "binance.credentials").toFile)
     .flatMap(file => parser.decode[Credentials](ConfigFactory.parseFile(file)).toOption)
     .getOrElse(exampleCredentials)
 }

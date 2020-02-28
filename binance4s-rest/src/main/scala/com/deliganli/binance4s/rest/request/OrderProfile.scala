@@ -1,6 +1,7 @@
 package com.deliganli.binance4s.rest.request
 
 import com.deliganli.binance4s.common.consts.{OrderType, TimeInForce}
+import com.deliganli.binance4s.rest.request.OrderProfile.Market.MarketQuantity
 import com.deliganli.binance4s.rest.request.QueryParams.Formatters._
 import org.http4s.Query
 
@@ -8,22 +9,17 @@ sealed trait OrderProfile
 
 object OrderProfile {
 
-  sealed trait MarketQuantity
-
-  object MarketQuantity {
-    case class Quantity(value: BigDecimal)           extends MarketQuantity
-    case class QuoteOrderQuantity(value: BigDecimal) extends MarketQuantity
+  implicit val query: HasQuery[OrderProfile] = HasQuery.create[OrderProfile] {
+    case p: Limit           => Limit.limitQuery.query(p)
+    case p: Market          => Market.marketQuery.query(p)
+    case p: StopLoss        => StopLoss.stopLossQuery.query(p)
+    case p: StopLossLimit   => StopLossLimit.stopLossLimitQuery.query(p)
+    case p: TakeProfit      => TakeProfit.takeProfitQuery.query(p)
+    case p: TakeProfitLimit => TakeProfitLimit.takeProfitLimitQuery.query(p)
+    case p: LimitMaker      => LimitMaker.limitMakerQuery.query(p)
   }
 
-  // format: off
-  case class Limit(quantity: BigDecimal, price: BigDecimal, timeInForce: TimeInForce)                                        extends OrderProfile
-  case class Market(quantity: MarketQuantity)                                                                                extends OrderProfile
-  case class StopLoss(quantity: BigDecimal, stopPrice: BigDecimal)                                                           extends OrderProfile
-  case class StopLossLimit(quantity: BigDecimal, price: BigDecimal, stopPrice: BigDecimal, timeInForce: TimeInForce)         extends OrderProfile
-  case class TakeProfit(quantity: BigDecimal, stopPrice: BigDecimal)                                                         extends OrderProfile
-  case class TakeProfitLimit(quantity: BigDecimal, price: BigDecimal, stopPrice: BigDecimal, timeInForce: TimeInForce)       extends OrderProfile
-  case class LimitMaker(quantity: BigDecimal, price: BigDecimal)                                                             extends OrderProfile
-  // format: on
+  case class Limit(quantity: BigDecimal, price: BigDecimal, timeInForce: TimeInForce) extends OrderProfile
 
   object Limit {
 
@@ -36,7 +32,15 @@ object OrderProfile {
     }
   }
 
+  case class Market(quantity: MarketQuantity) extends OrderProfile
+
   object Market {
+    sealed trait MarketQuantity { val value: BigDecimal }
+
+    object MarketQuantity {
+      case class Quantity(value: BigDecimal)           extends MarketQuantity
+      case class QuoteOrderQuantity(value: BigDecimal) extends MarketQuantity
+    }
 
     implicit val marketQuery: HasQuery[Market] = HasQuery.create[Market] { profile =>
       val quantityPair = profile.quantity match {
@@ -50,6 +54,8 @@ object OrderProfile {
     }
   }
 
+  case class StopLoss(quantity: BigDecimal, stopPrice: BigDecimal) extends OrderProfile
+
   object StopLoss {
 
     implicit val stopLossQuery: HasQuery[StopLoss] = HasQuery.create[StopLoss] { profile =>
@@ -59,6 +65,13 @@ object OrderProfile {
         .withQueryParam(QueryParams.Keys.stopPrice, profile.stopPrice)
     }
   }
+
+  case class StopLossLimit(
+    quantity: BigDecimal,
+    price: BigDecimal,
+    stopPrice: BigDecimal,
+    timeInForce: TimeInForce)
+      extends OrderProfile
 
   object StopLossLimit {
 
@@ -72,6 +85,8 @@ object OrderProfile {
     }
   }
 
+  case class TakeProfit(quantity: BigDecimal, stopPrice: BigDecimal) extends OrderProfile
+
   object TakeProfit {
 
     implicit val takeProfitQuery: HasQuery[TakeProfit] = HasQuery.create[TakeProfit] { profile =>
@@ -81,6 +96,13 @@ object OrderProfile {
         .withQueryParam(QueryParams.Keys.stopPrice, profile.stopPrice)
     }
   }
+
+  case class TakeProfitLimit(
+    quantity: BigDecimal,
+    price: BigDecimal,
+    stopPrice: BigDecimal,
+    timeInForce: TimeInForce)
+      extends OrderProfile
 
   object TakeProfitLimit {
 
@@ -93,6 +115,8 @@ object OrderProfile {
         .withQueryParam(QueryParams.Keys.stopPrice, profile.stopPrice)
     }
   }
+
+  case class LimitMaker(quantity: BigDecimal, price: BigDecimal) extends OrderProfile
 
   object LimitMaker {
 

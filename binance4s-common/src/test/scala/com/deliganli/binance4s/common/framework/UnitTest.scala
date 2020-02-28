@@ -4,12 +4,14 @@ import cats.effect.{ContextShift, IO, Timer}
 import org.mockito.cats.IdiomaticMockitoCats
 import org.mockito.scalatest.ResetMocksAfterEachTest
 import org.mockito.{ArgumentMatchersSugar, MockitoSugar}
-import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.{EitherValues, Inspectors, OptionValues}
 
 import scala.concurrent.ExecutionContext
 
 class UnitTest
-    extends FlatSpec
+    extends AnyFlatSpec
     with Matchers
     with OptionValues
     with EitherValues

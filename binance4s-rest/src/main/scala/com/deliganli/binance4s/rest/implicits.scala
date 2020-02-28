@@ -1,15 +1,15 @@
 package com.deliganli.binance4s.rest
 
 import cats.effect.Sync
-import cats.implicits._
-import com.deliganli.binance4s.rest.request.{HasQuery, KeyAdder, QuerySigner}
-import com.deliganli.binance4s.rest.response.base.{BinanceError, BinanceErrorResponse, BinanceResponse}
+import com.deliganli.binance4s.rest.BinanceRestClient.Result
+import com.deliganli.binance4s.rest.request.{ApiAuth, HasQuery, RequestSigner}
+import com.deliganli.binance4s.rest.response.base.{BinanceError, BinanceResponse}
 import io.circe.Decoder
 import org.http4s._
-import org.http4s.circe.CirceEntityDecoder._
 import org.http4s.client.Client
 
 object implicits {
+
   implicit class QueryOps(query: Query) {
 
     def withSubQuery[T: HasQuery](subQuery: T): Query = {
@@ -28,27 +28,24 @@ object implicits {
 
   implicit class RequestOps[F[_]: Sync](request: Request[F]) {
 
-    def sign[T](implicit credentials: QuerySigner[F]): F[Request[F]] = {
-      credentials.addSignature(request)
+    def sign[T](implicit credentials: RequestSigner[F]): F[Request[F]] = {
+      credentials.sign(request)
     }
 
-    def putKey[T](implicit key: KeyAdder[F]): Request[F] = {
-      key.addKey(request)
+    def putKey[T](implicit key: ApiAuth[F]): Request[F] = {
+      key.add(request)
     }
 
     def fetch[T: Decoder](
-      f: Response[F] => F[BinanceResponse[T]]
-    )(implicit client: Client[F]): F[BinanceResponse[T]] = {
-      client.fetch[BinanceResponse[T]](request)(f)
+      f: Response[F] => F[BinanceResponse[Result[T]]]
+    )(
+      implicit client: Client[F]
+    ): F[BinanceResponse[Result[T]]] = {
+      client.fetch(request)(f)
     }
-
   }
 
   implicit class ResponseOps[F[_]: Sync](response: Response[F]) {
-
-    def consume[T: Decoder]: F[Either[BinanceError, BinanceResponse[T]]] = BinanceResponse.create(response)
-
-    def consumeUnsafe[T: Decoder]: F[BinanceResponse[T]] = consume.flatMap(Sync[F].fromEither)
+    def consume[T: Decoder]: F[BinanceResponse[Either[BinanceError, T]]] = BinanceResponse.create(response)
   }
-
 }

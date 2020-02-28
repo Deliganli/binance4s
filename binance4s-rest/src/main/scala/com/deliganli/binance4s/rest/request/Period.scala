@@ -9,7 +9,7 @@ case class Period(start: Option[DateTime], end: Option[DateTime])
 object Period {
   val Empty = Period(None, None)
 
-  implicit val periodQuery: HasQuery[Period] = HasQuery.create[Period] { period =>
+  implicit val query: HasQuery[Period] = HasQuery.create[Period] { period =>
     Query.empty
       .withOptionQueryParam(QueryParams.Keys.startTime, period.start)
       .withOptionQueryParam(QueryParams.Keys.endTime, period.end)

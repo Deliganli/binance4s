@@ -1,11 +1,12 @@
 package com.deliganli.binance4s.rest
 
 import cats.Id
-import cats.effect.Sync
+import cats.effect.{Clock, Sync}
 import com.deliganli.binance4s.common.Credentials
 import com.deliganli.binance4s.rest.client._
 import com.deliganli.binance4s.rest.request.BinanceHeaders.ApiKey
-import com.deliganli.binance4s.rest.request.{KeyAdder, QuerySigner}
+import com.deliganli.binance4s.rest.request.{ApiAuth, RequestSigner}
+import com.deliganli.binance4s.rest.response.base.BinanceError
 import org.http4s.Uri
 import org.http4s.client.Client
 import tsec.common._
@@ -14,13 +15,12 @@ import tsec.mac.jca.HMACSHA256
 sealed trait BinanceRestClient[F[_]]
 
 object BinanceRestClient {
-
   // --------------------------------------------------------------------------------------------------------------
 
-  class PublicClient[F[_]] protected (
-    val general: GeneralClient[F],
-    val market: MarketClient[F]
-  ) extends BinanceRestClient[F]
+  type Result[T] = Either[BinanceError, T]
+
+  class PublicClient[F[_]] protected (val general: GeneralClient[F], val market: MarketClient[F])
+      extends BinanceRestClient[F]
 
   object PublicClient {
 
@@ -39,14 +39,16 @@ object BinanceRestClient {
     override val general: GeneralClient[F],
     override val market: MarketClient[F],
     val historical: HistoricalClient[F],
-    val user: StreamClient[F]
-  ) extends PublicClient[F](general, market)
+    val user: StreamClient[F])
+      extends PublicClient[F](general, market)
 
   object MeteredClient {
 
-    protected[BinanceRestClient] def apply[F[_]: Sync: KeyAdder](
+    protected[BinanceRestClient] def apply[F[_]: Sync: ApiAuth](
       api: Uri
-    )(implicit client: Client[F]): MeteredClient[F] = {
+    )(
+      implicit client: Client[F]
+    ): MeteredClient[F] = {
       val derived = PublicClient(api)
 
       val historical = new HistoricalClient[F](api)
@@ -62,19 +64,29 @@ object BinanceRestClient {
     override val market: MarketClient[F],
     override val historical: HistoricalClient[F],
     override val user: StreamClient[F],
-    val account: AccountClient[F]
-  ) extends MeteredClient[F](general, market, historical, user)
+    val account: AccountClient[F],
+    val order: OrderClient[F])
+      extends MeteredClient[F](general, market, historical, user)
 
   object SecureClient {
 
-    protected[BinanceRestClient] def apply[F[_]: Sync: KeyAdder: QuerySigner](
+    protected[BinanceRestClient] def apply[F[_]: Sync: Clock: ApiAuth: RequestSigner](
       api: Uri
-    )(implicit client: Client[F]): SecureClient[F] = {
+    )(
+      implicit client: Client[F]
+    ): SecureClient[F] = {
       val derived = MeteredClient(api)
-
       val order   = new OrderClient[F](api)
-      val account = new AccountClient[F](api)(order)
-      new SecureClient[F](derived.general, derived.market, derived.historical, derived.user, account)
+      val account = new AccountClient[F](api)
+
+      new SecureClient[F](
+        derived.general,
+        derived.market,
+        derived.historical,
+        derived.user,
+        account,
+        order
+      )
     }
   }
 
@@ -94,23 +106,22 @@ object BinanceRestClient {
     apiKey: String,
     api: Uri = Uri.unsafeFromString("https://api.binance.com/api")
   ): MeteredClient[F] = {
-    implicit val C: Client[F]    = client
-    implicit val AD: KeyAdder[F] = KeyAdder.create(ApiKey(apiKey))
+    implicit val C: Client[F]   = client
+    implicit val AD: ApiAuth[F] = ApiAuth.create(ApiKey(apiKey))
 
     MeteredClient(api)
   }
 
-  def secure[F[_]: Sync](
+  def secure[F[_]: Sync: Clock](
     client: Client[F],
     credentials: Credentials,
     api: Uri = Uri.unsafeFromString("https://api.binance.com/api")
   ): SecureClient[F] = {
-    val signingKey                  = HMACSHA256.buildKey[Id](credentials.secret.asciiBytes)
-    implicit val C: Client[F]       = client
-    implicit val AD: KeyAdder[F]    = KeyAdder.create(ApiKey(credentials.key))
-    implicit val SD: QuerySigner[F] = QuerySigner.create(signingKey)
+    val signingKey                    = HMACSHA256.buildKey[Id](credentials.secret.asciiBytes)
+    implicit val C: Client[F]         = client
+    implicit val AD: ApiAuth[F]       = ApiAuth.create(ApiKey(credentials.key))
+    implicit val SD: RequestSigner[F] = RequestSigner.create(signingKey)
 
     SecureClient(api)
   }
-
 }

@@ -14,15 +14,15 @@ class PublicClientTest extends IntegrationTest {
   )
 
   "ping" should "succeed" in {
-    noException should be thrownBy rest.general.ping().unsafeRunSync()
+    noException should be thrownBy rest.general.ping.unsafeRunSync()
   }
 
   "time" should "succeed" in {
-    noException should be thrownBy rest.general.time().unsafeRunSync()
+    noException should be thrownBy rest.general.time.unsafeRunSync()
   }
 
   "exchange info" should "succeed" in {
-    noException should be thrownBy rest.general.exchangeInfo().unsafeRunSync()
+    noException should be thrownBy rest.general.exchangeInfo.unsafeRunSync()
   }
 
   val symbol = "BTCUSDT"
@@ -44,7 +44,7 @@ class PublicClientTest extends IntegrationTest {
   }
 
   "book ticker for all" should "succeed" in {
-    noException should be thrownBy rest.market.ticker.book().unsafeRunSync()
+    noException should be thrownBy rest.market.ticker.book.unsafeRunSync()
   }
 
   "daily ticker for single currency" should "succeed" in {
@@ -52,7 +52,7 @@ class PublicClientTest extends IntegrationTest {
   }
 
   "daily ticker for all" should "succeed" in {
-    noException should be thrownBy rest.market.ticker.dailyAll().unsafeRunSync()
+    noException should be thrownBy rest.market.ticker.dailyAll.unsafeRunSync()
   }
 
   "price ticker for single currency" should "succeed" in {
@@ -60,7 +60,7 @@ class PublicClientTest extends IntegrationTest {
   }
 
   "price ticker for all" should "succeed" in {
-    noException should be thrownBy rest.market.ticker.priceAll().unsafeRunSync()
+    noException should be thrownBy rest.market.ticker.priceAll.unsafeRunSync()
   }
 
   "recent trades" should "succeed" in {

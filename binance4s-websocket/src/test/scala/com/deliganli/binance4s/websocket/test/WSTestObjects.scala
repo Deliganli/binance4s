@@ -20,7 +20,7 @@ object WSTestObjects {
     .connectTimeout(Duration.ofSeconds(20))
     .build()
 
-  val ws = BinanceWSClient.default[IO](
+  val ws = BinanceWSClient.create[IO](
     JdkWSClient(httpClient),
     Uri.unsafeFromString("wss://stream.binance.com:9443/ws")
   )

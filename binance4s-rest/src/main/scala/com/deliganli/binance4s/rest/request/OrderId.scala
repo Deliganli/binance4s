@@ -1,19 +1,14 @@
 package com.deliganli.binance4s.rest.request
 import org.http4s.Query
 
-class OrderId private (val underlier: Either[String, Long]) {
-  def clientSide: Option[String] = underlier.left.toOption
-
-  def id: Option[Long] = underlier.toOption
-}
+sealed trait OrderId
 
 object OrderId {
-  def apply(id: Long): OrderId = new OrderId(Right(id))
+  case class ExchangeOrderId(value: Long) extends OrderId
+  case class ClientOrderId(value: String) extends OrderId
 
-  def apply(clientSide: String): OrderId = new OrderId(Left(clientSide))
-
-  implicit val orderIdQuery = HasQuery.create[OrderId](_.underlier match {
-    case Right(id)          => Query(QueryParams.Keys.orderId          -> Some(id.toString))
-    case Left(clientSideId) => Query(QueryParams.Keys.newClientOrderId -> Some(clientSideId))
-  })
+  implicit val query: HasQuery[OrderId] = HasQuery.create[OrderId] {
+    case ExchangeOrderId(id)         => Query(QueryParams.Keys.orderId          -> Some(id.toString))
+    case ClientOrderId(clientSideId) => Query(QueryParams.Keys.newClientOrderId -> Some(clientSideId))
+  }
 }

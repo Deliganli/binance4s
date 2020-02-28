@@ -6,16 +6,18 @@ case class Trade(
   id: Long,
   price: BigDecimal,
   quantity: BigDecimal,
+  quoteQuantity: BigDecimal,
   time: Long,
   isBuyerMaker: Boolean,
-  isBestMatch: Boolean
-)
+  isBestMatch: Boolean)
 
 object Trade {
-  implicit val tradeDecoder: Decoder[Trade] = Decoder.forProduct6(
+
+  implicit val tradeDecoder: Decoder[Trade] = Decoder.forProduct7(
     "id",
     "price",
     "qty",
+    "quoteQty",
     "time",
     "isBuyerMaker",
     "isBestMatch"

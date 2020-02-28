@@ -11,37 +11,46 @@ case class CurrencySymbol(
   baseAssetPrecision: Int,
   quoteAsset: String,
   quotePrecision: Int,
+  baseCommissionPrecision: Int,
+  quoteCommissionPrecision: Int,
   orderTypes: Seq[OrderType],
   icebergAllowed: Boolean,
+  ocoAllowed: Boolean,
   isSpotTradingAllowed: Boolean,
   isMarginTradingAllowed: Boolean,
-  filters: Seq[SymbolFilter]
-)
+  filters: Seq[SymbolFilter])
 
 object CurrencySymbol {
-  implicit val d: Decoder[CurrencySymbol] = Decoder.forProduct11(
+
+  implicit val d: Decoder[CurrencySymbol] = Decoder.forProduct14(
     "symbol",
     "status",
     "baseAsset",
     "baseAssetPrecision",
     "quoteAsset",
     "quotePrecision",
+    "baseCommissionPrecision",
+    "quoteCommissionPrecision",
     "orderTypes",
     "icebergAllowed",
+    "ocoAllowed",
     "isSpotTradingAllowed",
     "isMarginTradingAllowed",
     "filters"
   )(CurrencySymbol.apply)
 
-  implicit val e: Encoder[CurrencySymbol] = Encoder.forProduct11(
+  implicit val e: Encoder[CurrencySymbol] = Encoder.forProduct14(
     "symbol",
     "status",
     "baseAsset",
     "baseAssetPrecision",
     "quoteAsset",
     "quotePrecision",
+    "baseCommissionPrecision",
+    "quoteCommissionPrecision",
     "orderTypes",
     "icebergAllowed",
+    "ocoAllowed",
     "isSpotTradingAllowed",
     "isMarginTradingAllowed",
     "filters"
@@ -53,8 +62,11 @@ object CurrencySymbol {
       m.baseAssetPrecision,
       m.quoteAsset,
       m.quotePrecision,
+      m.baseCommissionPrecision,
+      m.quoteCommissionPrecision,
       m.orderTypes,
       m.icebergAllowed,
+      m.ocoAllowed,
       m.isSpotTradingAllowed,
       m.isMarginTradingAllowed,
       m.filters

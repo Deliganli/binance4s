@@ -1,10 +1,8 @@
 package com.deliganli.binance4s.rest.request
 
 import com.deliganli.binance4s.common.consts._
-import com.deliganli.binance4s.rest.consts.OrderResponseType
 import org.http4s._
-import org.joda.time.DateTime
-import org.joda.time.Instant
+import org.joda.time.{DateTime, Instant}
 
 object QueryParams {
 
@@ -18,33 +16,40 @@ object QueryParams {
     implicit val orderTypeEncoder: QueryParamEncoder[OrderType]                      = QueryParamEncoder[String].contramap(_.entryName)
     implicit val timeInForceEncoder: QueryParamEncoder[TimeInForce]                  = QueryParamEncoder[String].contramap(_.entryName)
     implicit val bigDecimalEncoder: QueryParamEncoder[BigDecimal]                    = QueryParamEncoder[String].contramap(_.toString)
-    implicit val responseTypePointerEncoder: QueryParamEncoder[OrderResponseType[_]] = QueryParamEncoder[String].contramap(_.entryName)
     // format: on
   }
 
   object Keys {
-    val symbol            = "symbol"
-    val limit             = "limit"
-    val interval          = "interval"
-    val startTime         = "startTime"
-    val endTime           = "endTime"
-    val recvWindow        = "recvWindow"
-    val fromId            = "fromId"
-    val timestamp         = "timestamp"
-    val side              = "side"
-    val orderType         = "type"
-    val timeInForce       = "timeInForce"
-    val quantity          = "quantity"
-    val quoteOrderQty     = "quoteOrderQty"
-    val price             = "price"
-    val orderId           = "orderId"
-    val orderClientId     = "orderClientId"
-    val newClientOrderId  = "newClientOrderId"
-    val origClientOrderId = "origClientOrderId"
-    val stopPrice         = "stopPrice"
-    val icebergQty        = "icebergQty"
-    val newOrderRespType  = "newOrderRespType"
-    val listenKey         = "listenKey"
-    val signature         = "signature"
+    val symbol               = "symbol"
+    val limit                = "limit"
+    val interval             = "interval"
+    val startTime            = "startTime"
+    val endTime              = "endTime"
+    val recvWindow           = "recvWindow"
+    val fromId               = "fromId"
+    val timestamp            = "timestamp"
+    val side                 = "side"
+    val orderType            = "type"
+    val timeInForce          = "timeInForce"
+    val quantity             = "quantity"
+    val quoteOrderQty        = "quoteOrderQty"
+    val price                = "price"
+    val orderId              = "orderId"
+    val orderClientId        = "orderClientId"
+    val newClientOrderId     = "newClientOrderId"
+    val origClientOrderId    = "origClientOrderId"
+    val listClientOrderId    = "listClientOrderId"
+    val limitClientOrderId   = "limitClientOrderId"
+    val limitIcebergQty      = "limitIcebergQty"
+    val orderListId          = "orderListId"
+    val stopClientOrderId    = "stopClientOrderId"
+    val stopLimitPrice       = "stopLimitPrice"
+    val stopIcebergQty       = "stopIcebergQty"
+    val stopLimitTimeInForce = "stopLimitTimeInForce"
+    val stopPrice            = "stopPrice"
+    val icebergQty           = "icebergQty"
+    val newOrderRespType     = "newOrderRespType"
+    val listenKey            = "listenKey"
+    val signature            = "signature"
   }
 }
