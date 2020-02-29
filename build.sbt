@@ -55,7 +55,7 @@ lazy val websocket = project
 lazy val commonSettings = Seq(
   organization := "com.deliganli",
   scalaVersion := scala213,
-  version := "0.1.0-SNAPSHOT",
+  version := "0.1.0",
   scalacOptions ++= Seq(
     "-deprecation",
     "-encoding",
@@ -91,5 +91,5 @@ lazy val publishSettings = Seq(
   licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0")),
   publishMavenStyle := true,
   credentials += Credentials(Path.userHome / ".sbt" / "sonatype.credential"),
-  publishTo := Some(if (isSnapshot.value) Opts.resolver.sonatypeSnapshots else Opts.resolver.sonatypeStaging)
+  publishTo := sonatypePublishToBundle.value
 )
