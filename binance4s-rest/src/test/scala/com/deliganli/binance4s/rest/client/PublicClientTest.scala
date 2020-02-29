@@ -2,9 +2,9 @@ package com.deliganli.binance4s.rest.client
 
 import cats.effect.IO
 import com.deliganli.binance4s.common.consts.{DepthLimit, KlineInterval}
+import com.deliganli.binance4s.common.http.JDKHttpClient
 import com.deliganli.binance4s.rest.BinanceRestClient
 import com.deliganli.binance4s.rest.framework.IntegrationTest
-import com.deliganli.binance4s.rest.http.JDKHttpClient
 import org.http4s.client.jdkhttpclient.JdkHttpClient
 
 class PublicClientTest extends IntegrationTest {

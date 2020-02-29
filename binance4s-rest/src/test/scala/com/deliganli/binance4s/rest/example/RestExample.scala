@@ -2,8 +2,8 @@ package com.deliganli.binance4s.rest.example
 
 import cats.effect.{Clock, ConcurrentEffect}
 import com.deliganli.binance4s.common.Credentials
+import com.deliganli.binance4s.common.http.JDKHttpClient
 import com.deliganli.binance4s.rest.BinanceRestClient
-import com.deliganli.binance4s.rest.http.JDKHttpClient
 import com.deliganli.binance4s.rest.response.base.{BinanceError, BinanceResponse}
 import com.deliganli.binance4s.rest.response.general.ExchangeInfo
 import com.typesafe.scalalogging.StrictLogging

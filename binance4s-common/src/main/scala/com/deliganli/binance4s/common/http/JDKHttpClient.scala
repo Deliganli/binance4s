@@ -1,4 +1,4 @@
-package com.deliganli.binance4s.rest.http
+package com.deliganli.binance4s.common.http
 
 import java.net.http.HttpClient
 import java.time.Duration

@@ -2,9 +2,9 @@ package com.deliganli.binance4s.rest.client
 
 import cats.effect.IO
 import com.deliganli.binance4s.common.consts.{OrderSide, TimeInForce}
+import com.deliganli.binance4s.common.http.JDKHttpClient
 import com.deliganli.binance4s.rest.BinanceRestClient
 import com.deliganli.binance4s.rest.framework.IntegrationTest
-import com.deliganli.binance4s.rest.http.JDKHttpClient
 import com.deliganli.binance4s.rest.request.OrderProfile
 import com.deliganli.binance4s.rest.request.OrderProfile.Market.MarketQuantity
 import com.deliganli.binance4s.rest.response.account.{AccountInfo, AccountTrade}
