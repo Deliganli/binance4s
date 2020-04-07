@@ -52,7 +52,6 @@ object Dependencies {
   val osLib        = "com.lihaoyi"                %% "os-lib"         % Versions.osLib
   val circeConfig  = "io.circe"                   %% "circe-config"   % Versions.circeConfig
   val shapeless    = "com.chuusai"                %% "shapeless"      % Versions.shapeless
-  val jodaDateTime = "joda-time"                  % "joda-time"       % Versions.jodaDateTime
 
 }
 
@@ -72,7 +71,6 @@ object Versions {
   val breeze          = "1.0"
   val shapeless       = "2.3.3"
   val mockito         = "1.10.4"
-  val jodaDateTime    = "2.10.5"
   val http4s          = "0.21.0-M6"
   val http4sJdk       = "0.2.0-M4"
 

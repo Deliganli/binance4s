@@ -1,7 +1,7 @@
 package com.deliganli.binance4s.websocket.response
 
 import io.circe.Decoder
-import org.joda.time.Instant
+import java.time.Instant
 
 case class AccountPositionUpdate(eventTime: Instant, timeOfLastAccountUpdate: Instant, balances: Seq[Balance])
     extends UserEvent

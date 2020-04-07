@@ -24,7 +24,7 @@ lazy val common = project
     Publish.settings,
     name := "binance4s-common",
     version := versionTag,
-    libraryDependencies ++= Seq(logging, jodaDateTime, cats, catsEffect) ++ enumeratum ++ circe ++ scalatest ++ http4sClient
+    libraryDependencies ++= Seq(logging, cats, catsEffect) ++ enumeratum ++ circe ++ scalatest ++ http4sClient
   )
 
 lazy val rest = project

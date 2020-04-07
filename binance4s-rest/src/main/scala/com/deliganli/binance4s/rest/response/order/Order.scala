@@ -2,7 +2,7 @@ package com.deliganli.binance4s.rest.response.order
 
 import com.deliganli.binance4s.common.consts.{OrderSide, OrderStatus, OrderType, TimeInForce}
 import io.circe.Decoder
-import org.joda.time.Instant
+import java.time.Instant
 
 case class Order(
   symbol: String,

@@ -1,7 +1,7 @@
 package com.deliganli.binance4s.rest.response.general
 
 import io.circe.Decoder
-import org.joda.time.Instant
+import java.time.Instant
 
 case class Time(serverTime: Instant)
 

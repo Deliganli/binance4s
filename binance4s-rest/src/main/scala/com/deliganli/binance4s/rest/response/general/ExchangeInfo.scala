@@ -3,7 +3,7 @@ package com.deliganli.binance4s.rest.response.general
 import com.deliganli.binance4s.rest.response.filter.ExchangeFilter
 import com.deliganli.binance4s.rest.response.market.CurrencySymbol
 import io.circe.{Decoder, Encoder}
-import org.joda.time.Instant
+import java.time.Instant
 
 case class ExchangeInfo(
   timezone: String,

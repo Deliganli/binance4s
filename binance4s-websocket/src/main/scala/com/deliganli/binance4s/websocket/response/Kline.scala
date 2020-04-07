@@ -2,7 +2,7 @@ package com.deliganli.binance4s.websocket.response
 
 import com.deliganli.binance4s.common.consts.KlineInterval
 import io.circe.{Decoder, HCursor}
-import org.joda.time.Instant
+import java.time.Instant
 
 case class Kline(
   eventTime: Instant,                  // Event time
