@@ -3,7 +3,7 @@ package com.deliganli.binance4s.websocket.response
 import com.deliganli.binance4s.common.consts.{OrderSide, OrderStatus, OrderType, TimeInForce}
 import com.deliganli.binance4s.websocket.response.OrderUpdate.{Commission, Cumulative, Current, Last, OrderIds}
 import io.circe.{Decoder, HCursor}
-import org.joda.time.Instant
+import java.time.Instant
 
 case class OrderUpdate(
   eventTime: Instant,

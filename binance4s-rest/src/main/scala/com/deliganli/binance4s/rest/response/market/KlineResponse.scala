@@ -1,7 +1,7 @@
 package com.deliganli.binance4s.rest.response.market
 
 import io.circe.{Decoder, HCursor}
-import org.joda.time.Instant
+import java.time.Instant
 
 case class KlineResponse(
   openTime: Instant,

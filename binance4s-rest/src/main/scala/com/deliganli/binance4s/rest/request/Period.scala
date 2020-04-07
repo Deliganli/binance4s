@@ -1,10 +1,11 @@
 package com.deliganli.binance4s.rest.request
 
+import java.time.ZonedDateTime
+
 import com.deliganli.binance4s.rest.request.QueryParams.Formatters.dateTimeEncoder
 import org.http4s.Query
-import org.joda.time.DateTime
 
-case class Period(start: Option[DateTime], end: Option[DateTime])
+case class Period(start: Option[ZonedDateTime], end: Option[ZonedDateTime])
 
 object Period {
   val Empty = Period(None, None)

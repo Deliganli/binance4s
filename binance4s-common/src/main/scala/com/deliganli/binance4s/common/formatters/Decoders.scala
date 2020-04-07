@@ -2,7 +2,7 @@ package com.deliganli.binance4s.common.formatters
 
 import cats.syntax.either._
 import io.circe.Decoder
-import org.joda.time.Instant
+import java.time.Instant
 
 object Decoders {
   implicit val decodeInstant: Decoder[Instant] = Decoder.decodeLong.emap { lng =>

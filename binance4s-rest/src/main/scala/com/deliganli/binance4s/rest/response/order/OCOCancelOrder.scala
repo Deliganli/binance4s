@@ -3,7 +3,7 @@ package com.deliganli.binance4s.rest.response.order
 import com.deliganli.binance4s.common.consts._
 import com.deliganli.binance4s.rest.response.order.OCOCancelOrder.Report
 import io.circe.Decoder
-import org.joda.time.Instant
+import java.time.Instant
 
 case class OCOCancelOrder(
   orderListId: String,
