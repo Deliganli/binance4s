@@ -212,12 +212,12 @@ object SymbolFilter {
   object MaxNumOrders {
     implicit val d: Decoder[MaxNumOrders] = Decoder.forProduct2(
       "filterType",
-      "limit"
+      "maxNumOrders"
     )(MaxNumOrders.apply)
 
     implicit val e: Encoder[MaxNumOrders] = Encoder.forProduct2(
       "filterType",
-      "limit"
+      "maxNumOrders"
     ) { m =>
       (
         m.filterType,
